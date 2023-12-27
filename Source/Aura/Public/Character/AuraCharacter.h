@@ -2,16 +2,25 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
+#include "CoreMinimal.h"
 #include "AuraCharacter.generated.h"
 
-/**
- * 
- */
+class UCameraComponent;
+class USpringArmComponent;
+
 UCLASS()
 class AURA_API AAuraCharacter : public AAuraCharacterBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+public:
+    AAuraCharacter();
+
+protected:
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    USpringArmComponent* SpringArmComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+    UCameraComponent* CameraComponent;
 };
