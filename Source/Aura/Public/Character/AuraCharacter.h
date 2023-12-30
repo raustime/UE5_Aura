@@ -16,11 +16,15 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase
 
 public:
     AAuraCharacter();
+    virtual void PossessedBy(AController* NewController) override;
+    virtual void OnRep_PlayerState() override;
 
 protected:
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-    USpringArmComponent* SpringArmComponent;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components") USpringArmComponent* SpringArmComponent;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UCameraComponent* CameraComponent;
+
+private:
+    void InitAbilityActorInfo();
 };
