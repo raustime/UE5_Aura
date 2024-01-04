@@ -66,4 +66,12 @@ void AAuraCharacter::InitAbilityActorInfo()
             AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
         }
     }
+    // The same, because no need to specific functional of AuraPlayerController
+    /*
+    auto* PlayerController = Cast<APlayerController>(GetController());
+    if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(PlayerController->GetHUD()))
+    {
+        AuraHUD->InitOverlay(PlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+    }
+    */
 }
