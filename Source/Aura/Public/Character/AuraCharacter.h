@@ -25,6 +25,5 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UCameraComponent* CameraComponent;
 
-private:
-    void InitAbilityActorInfo();
+    virtual void InitAbilityActorInfo() override;
 };
