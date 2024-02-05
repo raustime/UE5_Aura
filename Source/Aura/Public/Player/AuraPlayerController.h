@@ -31,8 +31,16 @@ protected:
 private:
     UPROPERTY(EditAnywhere, Category = "Input")
     TObjectPtr<UInputMappingContext> AuraContext;
+
     UPROPERTY(EditAnywhere, Category = "Input")
     TObjectPtr<UInputAction> MoveAction;
+
+    UPROPERTY(EditAnywhere, Category = "Input")
+    TObjectPtr<UInputAction> ShiftAction;
+
+    void ShiftPressed() { bShiftKetDown = true; }
+    void ShiftReleased() { bShiftKetDown = false; }
+    bool bShiftKetDown = false;
 
     void Move(const FInputActionValue& InputActionValue);
 
