@@ -1,8 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Actor/AuraProjectile.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+#include "NiagaraFunctionLibrary.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Aura/Aura.h"
+
+DEFINE_LOG_CATEGORY_STATIC(AuraProjectile, All, All);
 
 AAuraProjectile::AAuraProjectile()
 {
@@ -11,6 +19,7 @@ AAuraProjectile::AAuraProjectile()
 
     Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
     SetRootComponent(Sphere);
+    Sphere->SetCollisionObjectType(ECC_Projectile);
     Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
     Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
@@ -26,10 +35,48 @@ AAuraProjectile::AAuraProjectile()
 void AAuraProjectile::BeginPlay()
 {
     Super::BeginPlay();
+    checkf(ImpactSound, TEXT("ImpactSound not defined"));
+    checkf(ImpactEffect, TEXT("ImpactEffect not defined"));
+    SetLifeSpan(LifeSpan);
     Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
+    if (LoopingSound)
+    {
+        LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
+    }
+    else
+    {
+        UE_LOG(AuraProjectile, Warning, TEXT("Fareball looping sound not defined"));
+    }
+}
+
+void AAuraProjectile::Destroyed()
+{
+    if (!bHit && !HasAuthority())
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+        UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+        if (LoopingSoundComponent) LoopingSoundComponent->Stop();
+    }
+    Super::Destroyed();
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+    UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+    UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+    if (LoopingSoundComponent) LoopingSoundComponent->Stop();
+
+    if (HasAuthority())
+    {
+        if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+        {
+            TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+        }
+        Destroy();
+    }
+    else
+    {
+        bHit = true;
+    }
 }
