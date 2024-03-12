@@ -16,13 +16,18 @@ struct FTaggedMontage
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    UAnimMontage* Montage = nullptr;
+    // UAnimMontage* Montage = nullptr;
+    TObjectPtr<UAnimMontage> Montage = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayTag MontageTag;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    USoundBase* ImpactSound = nullptr;
+    FGameplayTag SocketTag;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    // USoundBase* ImpactSound = nullptr;
+    TObjectPtr<USoundBase> ImpactSound = nullptr;
 };
 
 // This class does not need to be modified.
@@ -66,4 +71,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     UNiagaraSystem* GetBloodEffect();
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    FTaggedMontage GetTaggedMontageByTag(const FGameplayTag& MontageTag);
 };
