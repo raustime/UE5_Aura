@@ -44,10 +44,6 @@ void AAuraProjectile::BeginPlay()
     {
         LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
     }
-    else
-    {
-        UE_LOG(AuraProjectile, Warning, TEXT("Fareball looping sound not defined"));
-    }
 }
 
 void AAuraProjectile::Destroyed()
