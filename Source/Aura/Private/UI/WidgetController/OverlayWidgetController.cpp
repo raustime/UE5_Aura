@@ -29,15 +29,25 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
     AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxManaAttribute())
         .AddLambda([this](const FOnAttributeChangeData& Data) { OnMaxManaChanged.Broadcast(Data.NewValue); });
 
-    Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)
-        ->EffectAssetTags.AddLambda(
+    if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        if (AuraASC->bStartupAbilitiesGiven)
+        {
+            OnInitializeStartupAbilities(AuraASC);
+        }
+        else
+        {
+            AuraASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+        }
+
+        AuraASC->EffectAssetTags.AddLambda(
             [this](const FGameplayTagContainer& AssetTags)
             {
-                // if Tag=Message.HealthPotion
-                /*"Message.HealthPotion".MatchesTag("Message") will return True, "Message".MatchesTag("Message.HealthPotion") will return
-                 * False */
                 for (const FGameplayTag& Tag : AssetTags)
                 {
+                    // For example, say that Tag = Message.HealthPotion
+                    // "Message.HealthPotion".MatchesTag("Message") will return True, "Message".MatchesTag("Message.HealthPotion") will
+                    // return False
                     FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
                     if (Tag.MatchesTag(MessageTag))
                     {
@@ -46,4 +56,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                     }
                 }
             });
+    }
+}
+
+void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)
+{
+    // TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
+    if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
 }
