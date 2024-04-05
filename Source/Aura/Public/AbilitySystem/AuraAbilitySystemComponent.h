@@ -21,7 +21,6 @@ public:
     FEffectAssetTags EffectAssetTags;
     FAbilitiesGiven AbilitiesGivenDelegate;
 
-
     void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
     bool bStartupAbilitiesGiven = false;
 
