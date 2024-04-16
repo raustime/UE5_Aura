@@ -13,8 +13,8 @@ class ULevelUpInfo;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/)
 
-UCLASS()
-class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInterface
+    UCLASS() class AURA_API AAuraPlayerState : public APlayerState,
+                                               public IAbilitySystemInterface
 {
     GENERATED_BODY()
 

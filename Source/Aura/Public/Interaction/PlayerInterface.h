@@ -10,19 +10,21 @@
 UINTERFACE(MinimalAPI)
 class UPlayerInterface : public UInterface
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 };
 
 /**
- * 
+ *
  */
 class AURA_API IPlayerInterface
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
+    // Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-
-	UFUNCTION(BlueprintNativeEvent)
+    UFUNCTION(BlueprintNativeEvent)
     void AddToXP(int32 InXP);
+
+    UFUNCTION(BlueprintNativeEvent)
+    void LevelUp();
 };
