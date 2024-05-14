@@ -17,12 +17,11 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
-    
+
     GetAuraPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 
     GetAuraPS()->OnLevelChangedDelegate.AddLambda([this](int32 NewLevel) { OnPlayerLevelChangedDelegate.Broadcast(NewLevel); });
 
-    
     AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAS()->GetHealthAttribute())
         .AddLambda([this](const FOnAttributeChangeData& Data) { OnHealthChanged.Broadcast(Data.NewValue); });
 
@@ -46,7 +45,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
             GetAuraASC()->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
         }
 
-         GetAuraASC()->EffectAssetTags.AddLambda(
+        GetAuraASC()->EffectAssetTags.AddLambda(
             [this](const FGameplayTagContainer& AssetTags)
             {
                 for (const FGameplayTag& Tag : AssetTags)
@@ -64,7 +63,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
             });
     }
 }
-
 
 void UOverlayWidgetController::OnXPChanged(int32 NewXP)
 {

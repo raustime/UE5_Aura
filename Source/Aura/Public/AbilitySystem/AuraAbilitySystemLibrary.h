@@ -18,7 +18,6 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
     GENERATED_BODY()
 
 public:
-
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
     static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD);
 
