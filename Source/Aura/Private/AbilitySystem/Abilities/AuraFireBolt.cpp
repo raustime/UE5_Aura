@@ -1,6 +1,5 @@
 #include "AbilitySystem/Abilities/AuraFireBolt.h"
 
-
 FString UAuraFireBolt::GetDescription(int32 Level)
 {
     const int32 ScaledDamage = Damage.GetValueAtLevel(Level);

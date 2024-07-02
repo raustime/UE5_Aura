@@ -14,7 +14,6 @@ DECLARE_MULTICAST_DELEGATE_ThreeParams(
 DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*Status*/,
     const FGameplayTag& /*Slot*/, const FGameplayTag& /*PrevSlot*/);
 
-
 UCLASS()
 class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 {

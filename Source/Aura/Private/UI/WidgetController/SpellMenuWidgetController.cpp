@@ -41,10 +41,10 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
     GetAuraASC()->AbilityEquipped.AddUObject(this, &USpellMenuWidgetController::OnAbilityEquipped);
 
     GetAuraPS()->OnSpellPointsChangedDelegate.AddLambda(
-       [this](int32 SpellPoints) 
-       { 
-          SpellPointsChanged.Broadcast(SpellPoints); 
-          CurrentSpellPoints = SpellPoints;
+        [this](int32 SpellPoints)
+        {
+            SpellPointsChanged.Broadcast(SpellPoints);
+            CurrentSpellPoints = SpellPoints;
 
             bool bEnableSpendPoints = false;
             bool bEnableEquip = false;
@@ -54,7 +54,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
             FString NextLevelDescription;
             GetAuraASC()->GetDescriptionsByAbilityTag(SelectedAbility.Ability, Description, NextLevelDescription);
             SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Description, NextLevelDescription);
-       });
+        });
 }
 
 void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
