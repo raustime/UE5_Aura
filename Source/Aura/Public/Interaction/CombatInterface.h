@@ -8,11 +8,13 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "CombatInterface.generated.h"
 
+class UAbilitySystemComponent;
 class UNiagaraSystem;
 class UAnimMontage;
 
-USTRUCT(BlueprintType)
-struct FTaggedMontage
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*)
+
+    USTRUCT(BlueprintType) struct FTaggedMontage
 {
     GENERATED_BODY()
 
@@ -85,4 +87,6 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     ECharacterClass GetCharacterClass();
+
+    virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
 };
