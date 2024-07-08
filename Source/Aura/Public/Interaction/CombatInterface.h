@@ -14,7 +14,7 @@ class UAnimMontage;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*)
 
-    USTRUCT(BlueprintType) struct FTaggedMontage
+USTRUCT(BlueprintType) struct FTaggedMontage
 {
     GENERATED_BODY()
 
@@ -62,7 +62,7 @@ public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     UAnimMontage* GetHitReactMontage();
 
-    virtual void Die() = 0;
+    virtual void Die(const FVector& DeathImpulse) = 0;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     bool IsDead() const;
